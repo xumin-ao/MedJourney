@@ -1,82 +1,79 @@
 import Link from "next/link";
 
-const products = [
+const sectors = [
   {
-    name: "Private",
+    key: "private",
     title: "MedJourney Private",
-    description:
-      "Uma experiência centrada no médico particular, sua carteira clínica, agenda e continuidade do cuidado.",
-    href: "/private",
+    subtitle: "Médico particular",
+    description: "Consultório, agenda, pacientes e acompanhamento clínico.",
   },
   {
-    name: "Clinic",
+    key: "clinic",
     title: "MedJourney Clinic",
-    description:
-      "Operação multiprofissional com visão de agendas, equipes, pacientes e capacidade da clínica.",
-    href: "/clinic",
+    subtitle: "Clínicas",
+    description: "Equipe multiprofissional, agendas e operação integrada.",
   },
   {
-    name: "Hospital",
+    key: "hospital",
     title: "MedJourney Hospital",
-    description:
-      "Fluxo hospitalar com experiências específicas para médicos, enfermagem, técnicos e gestão.",
-    href: "/hospital",
+    subtitle: "Hospitais",
+    description: "Fluxo assistencial, unidades e equipes hospitalares.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <section className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-20">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-4xl">
-            <span className="inline-flex rounded-full border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium text-[var(--muted)] shadow-sm">
-              MedJourney · Fundação V1
-            </span>
-            <h1 className="mt-6 text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
-              A jornada do paciente muda. A interface também.
-            </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--muted)]">
-              Um core tecnológico compartilhado com experiências próprias para
-              consultório particular, clínica multiprofissional e hospital.
-            </p>
+    <main className="min-h-screen bg-[#f5f7fb] px-6 py-12 sm:px-10">
+      <div className="mx-auto flex min-h-[calc(100vh-6rem)] max-w-[980px] flex-col justify-center">
+        <div className="text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[14px] bg-[#0f6fd6] text-[15px] font-bold tracking-[-0.02em] text-white shadow-[0_9px_22px_rgba(15,111,214,0.18)]">
+            MJ
           </div>
-
-          <Link
-            href="/login"
-            className="w-fit rounded-2xl bg-[var(--foreground)] px-5 py-3 font-semibold text-white shadow-sm"
-          >
-            Ver acesso
-          </Link>
+          <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#087bd1]">
+            MedJourney
+          </p>
+          <h1 className="mt-4 text-[32px] font-medium tracking-[-0.035em] text-[#172033] sm:text-[38px]">
+            Escolha seu ambiente de acesso
+          </h1>
+          <p className="mx-auto mt-3 max-w-[560px] text-[13px] leading-6 text-[#64748b]">
+            Selecione o setor em que você trabalha. Na próxima tela, informe suas
+            credenciais para entrar.
+          </p>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3">
-          {products.map((product) => (
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {sectors.map((sector) => (
             <Link
-              key={product.name}
-              href={product.href}
-              className="group rounded-3xl border border-[var(--border)] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:border-[var(--border-strong)] hover:shadow-md"
+              key={sector.key}
+              href={`/login?sector=${sector.key}`}
+              className="group rounded-[14px] border border-[#e4e9f0] bg-white p-6 shadow-[0_2px_8px_rgba(15,23,42,0.03)] transition hover:-translate-y-0.5 hover:border-[#b9dcf8] hover:shadow-[0_8px_24px_rgba(15,23,42,0.07)]"
             >
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-                {product.name}
+              <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#eaf4ff] text-[12px] font-bold text-[#087bd1]">
+                {sector.key === "private" ? "P" : sector.key === "clinic" ? "C" : "H"}
+              </div>
+              <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#087bd1]">
+                {sector.subtitle}
               </p>
-              <h2 className="mt-4 text-2xl font-semibold">{product.title}</h2>
-              <p className="mt-4 leading-7 text-[var(--muted)]">
-                {product.description}
+              <h2 className="mt-2 text-[20px] font-semibold tracking-[-0.025em] text-[#172033]">
+                {sector.title}
+              </h2>
+              <p className="mt-3 min-h-[48px] text-[12px] leading-5 text-[#64748b]">
+                {sector.description}
               </p>
-              <p className="mt-7 text-sm font-semibold">
-                Explorar protótipo <span aria-hidden="true">→</span>
-              </p>
+              <div className="mt-6 flex items-center justify-between border-t border-[#eef2f6] pt-4 text-[12px] font-semibold text-[#0f6fd6]">
+                <span>Acessar</span>
+                <span aria-hidden="true" className="transition group-hover:translate-x-0.5">
+                  →
+                </span>
+              </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-8 grid gap-4 rounded-3xl border border-dashed border-[var(--border-strong)] bg-[var(--surface)] p-6 text-sm text-[var(--muted)] md:grid-cols-3">
-          <p><strong className="text-[var(--foreground)]">Sem dados reais.</strong><br />Todo conteúdo atual é demonstrativo.</p>
-          <p><strong className="text-[var(--foreground)]">Sem schema clínico.</strong><br />O banco será modelado após validação.</p>
-          <p><strong className="text-[var(--foreground)]">Arquitetura separada.</strong><br />Private, Clinic e Hospital não são a mesma tela com outro nome.</p>
-        </div>
-      </section>
+        <p className="mt-8 text-center text-[10px] text-[#94a3b8]">
+          MedJourney · Acesso profissional
+        </p>
+      </div>
     </main>
   );
 }

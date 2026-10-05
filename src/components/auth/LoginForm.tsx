@@ -4,6 +4,11 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
+type LoginFormProps = {
+  destination: string;
+  productName: string;
+};
+
 function getFriendlyAuthError(message: string) {
   const normalized = message.toLowerCase();
 
@@ -25,119 +30,147 @@ function getFriendlyAuthError(message: string) {
   return "Não foi possível entrar agora. Verifique seus dados e tente novamente.";
 }
 
-export function LoginForm() {
+export function LoginForm({ destination, productName }: LoginFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const normalizedEmail = email.trim().toLowerCase();
 
     if (!normalizedEmail || !password) {
-      setErrorMessage("Informe seu e-mail e sua senha.");
+      setError("Informe seu e-mail e sua senha.");
       return;
     }
 
-    setIsSubmitting(true);
-    setErrorMessage("");
+    setError("");
+    setLoading(true);
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error: loginError } = await supabase.auth.signInWithPassword({
         email: normalizedEmail,
         password,
       });
 
-      if (error) {
-        setErrorMessage(getFriendlyAuthError(error.message));
+      if (loginError) {
+        setError(getFriendlyAuthError(loginError.message));
         return;
       }
 
-      router.replace("/workspace");
+      router.replace(destination);
       router.refresh();
     } catch {
-      setErrorMessage(
-        "Não foi possível conectar ao serviço de autenticação. Tente novamente.",
-      );
+      setError("Não foi possível conectar ao serviço de autenticação. Tente novamente.");
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   }
 
   return (
-    <form className="mt-8 space-y-5" onSubmit={handleSubmit} noValidate>
-      <label className="block">
-        <span className="text-sm font-semibold text-[var(--foreground)]">
-          E-mail
-        </span>
+    <form onSubmit={handleLogin} className="space-y-5" noValidate>
+      <div>
+        <label
+          htmlFor="email"
+          className="mb-2 block text-[11px] font-semibold text-[#475569]"
+        >
+          Usuário
+        </label>
         <input
-          type="email"
+          id="email"
           name="email"
-          autoComplete="email"
-          inputMode="email"
+          type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="seuemail@instituicao.com.br"
-          disabled={isSubmitting}
-          className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3.5 text-[var(--foreground)] outline-none transition placeholder:text-slate-400 focus:border-[var(--accent)] focus:ring-4 focus:ring-emerald-900/5 disabled:cursor-not-allowed disabled:opacity-70"
+          placeholder="seu@email.com"
+          required
+          autoComplete="username"
+          disabled={loading}
+          className="h-11 w-full rounded-[9px] border border-[#dbe2eb] bg-white px-3.5 text-[12px] text-[#172033] outline-none transition focus:border-[#087bd1] focus:ring-4 focus:ring-[#d8edff] disabled:cursor-not-allowed disabled:opacity-60"
         />
-      </label>
+      </div>
 
-      <label className="block">
-        <span className="text-sm font-semibold text-[var(--foreground)]">
+      <div>
+        <label
+          htmlFor="password"
+          className="mb-2 block text-[11px] font-semibold text-[#475569]"
+        >
           Senha
-        </span>
-        <div className="relative mt-2">
+        </label>
+        <div className="relative">
           <input
-            type={showPassword ? "text" : "password"}
+            id="password"
             name="password"
-            autoComplete="current-password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Digite sua senha"
-            disabled={isSubmitting}
-            className="w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3.5 pr-24 text-[var(--foreground)] outline-none transition placeholder:text-slate-400 focus:border-[var(--accent)] focus:ring-4 focus:ring-emerald-900/5 disabled:cursor-not-allowed disabled:opacity-70"
+            required
+            autoComplete="current-password"
+            disabled={loading}
+            className="h-11 w-full rounded-[9px] border border-[#dbe2eb] bg-white px-3.5 pr-11 text-[12px] text-[#172033] outline-none transition focus:border-[#087bd1] focus:ring-4 focus:ring-[#d8edff] disabled:cursor-not-allowed disabled:opacity-60"
           />
           <button
             type="button"
-            onClick={() => setShowPassword((current) => !current)}
-            disabled={isSubmitting}
-            className="absolute inset-y-0 right-3 my-auto h-fit rounded-lg px-2 py-1 text-xs font-semibold text-[var(--accent)] transition hover:bg-[var(--surface)] disabled:opacity-50"
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+            onClick={() => setShowPassword((value) => !value)}
+            disabled={loading}
+            className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-[#94a3b8] transition hover:text-[#475569] disabled:opacity-50"
           >
-            {showPassword ? "Ocultar" : "Mostrar"}
+            {showPassword ? (
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M3 3l18 18" />
+                <path d="M10.6 10.6a2 2 0 0 0 2.8 2.8" />
+                <path d="M9.9 4.2A10.8 10.8 0 0 1 12 4c5.2 0 8.7 5 9.8 7a17.3 17.3 0 0 1-3.2 3.8" />
+                <path d="M6.1 6.1A16 16 0 0 0 2.2 11c1.1 2 4.6 7 9.8 7 1.2 0 2.3-.2 3.3-.6" />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M2.2 12s3.6-7 9.8-7 9.8 7 9.8 7-3.6 7-9.8 7-9.8-7-9.8-7Z" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+            )}
           </button>
         </div>
-      </label>
-
-      <div className="flex items-center justify-between gap-4 text-sm">
-        <p className="text-[var(--muted)]">Acesso para usuários autorizados.</p>
-        <span className="font-medium text-[var(--muted)]">
-          Recuperação em breve
-        </span>
       </div>
 
-      {errorMessage ? (
+      {error ? (
         <div
           role="alert"
           aria-live="polite"
-          className="rounded-2xl border border-[var(--danger-border)] bg-[var(--danger-surface)] px-4 py-3 text-sm font-medium text-red-900"
+          className="rounded-[9px] border border-[#fecdd3] bg-[#fff1f2] px-3.5 py-3 text-[12px] text-[#be123c]"
         >
-          {errorMessage}
+          {error}
         </div>
       ) : null}
 
       <button
         type="submit"
-        disabled={isSubmitting}
-        className="flex w-full items-center justify-center rounded-2xl bg-[var(--accent)] px-4 py-3.5 font-semibold text-white shadow-sm transition hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-emerald-900/15 disabled:cursor-not-allowed disabled:opacity-70"
+        disabled={loading}
+        className="flex h-11 w-full items-center justify-center rounded-[9px] bg-[#0f6fd6] px-4 text-[13px] font-semibold text-white shadow-[0_9px_22px_rgba(15,111,214,0.18)] transition hover:bg-[#0b62bf] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Entrando..." : "Entrar no MedJourney"}
+        {loading ? "Entrando..." : `Entrar no ${productName} →`}
       </button>
     </form>
   );
