@@ -1,4 +1,4 @@
-# Roadmap inicial — MedJourney
+# Roadmap — MedJourney
 
 ## Fase 0 — Fundação técnica
 - [x] Repositório independente
@@ -6,40 +6,48 @@
 - [x] Tailwind CSS
 - [x] Estrutura de integração com Supabase
 - [x] Documentação arquitetural inicial
-- [ ] Instalação local e primeiro build
+- [x] Protótipo MedJourney Private
+- [x] Protótipo MedJourney Clinic
+- [x] Protótipo MedJourney Hospital
+- [x] Visões hospitalares por profissão
+- [x] Documentação de segurança, fluxos e permissões
+- [ ] Primeiro build validado
 - [ ] Criação do projeto Supabase
 
 ## Fase 1 — Arquitetura de domínio
-- [ ] Definir organizações e multi-tenancy
-- [ ] Definir perfis profissionais
-- [ ] Definir permissões e matriz de acesso
-- [ ] Definir identidade do paciente
-- [ ] Definir auditoria
-- [ ] Definir escopo do MVP
+- [x] Separação conceitual dos três produtos
+- [x] Perfis profissionais conceituais
+- [x] Princípios de autorização
+- [x] Fluxos conceituais
+- [x] Escopo inicial do MVP
+- [ ] Modelo formal de organizações e vínculos
+- [ ] Identidade longitudinal do paciente
+- [ ] Matriz de permissões aprovada
+- [ ] Modelo de auditoria aprovado
+- [ ] Diagrama de dados aprovado
 
 ## Fase 2 — MedJourney Private
-- [ ] Requisitos detalhados
-- [ ] UX/UI
 - [ ] Banco e RLS
-- [ ] Autenticação
+- [ ] Autenticação real
 - [ ] Pacientes
 - [ ] Agenda e consultas
 - [ ] Timeline
-- [ ] Acompanhamentos
+- [ ] Pendências e acompanhamentos
+- [ ] UX validada
 
 ## Fase 3 — MedJourney Clinic
 - [ ] Equipes multiprofissionais
 - [ ] Recepção
-- [ ] Agenda por profissional
+- [ ] Agenda por profissional/recurso
 - [ ] Operação de clínica
 - [ ] Relatórios
 
 ## Fase 4 — MedJourney Hospital
-- [ ] Estrutura hospitalar
+- [ ] Estrutura hospitalar formal
 - [ ] Unidades e setores
-- [ ] Perfis assistenciais
+- [ ] Vínculos por equipe/turno
 - [ ] Fluxo do paciente
-- [ ] Painéis por profissão
+- [ ] Painéis assistenciais
 - [ ] Patient Flow Engine
 
 ## Fase 5 — Recursos avançados

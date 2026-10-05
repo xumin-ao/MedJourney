@@ -1,10 +1,14 @@
 # MedJourney
 
-Plataforma de saúde digital criada do zero para gestão da jornada do paciente em três contextos:
+Plataforma de saúde digital criada do zero para gestão da jornada do paciente.
+
+## Produtos
 
 - **MedJourney Private** — médico particular e consultório individual.
 - **MedJourney Clinic** — clínicas multiprofissionais.
 - **MedJourney Hospital** — hospitais, unidades assistenciais e equipes multidisciplinares.
+
+O princípio central é compartilhar infraestrutura sem transformar contextos assistenciais diferentes em uma única interface genérica.
 
 ## Stack
 
@@ -14,6 +18,18 @@ Plataforma de saúde digital criada do zero para gestão da jornada do paciente 
 - Tailwind CSS 4
 - Supabase (PostgreSQL, Auth, RLS e Storage)
 
+## Protótipos atuais
+
+- `/private`
+- `/clinic`
+- `/hospital`
+- `/hospital/physician`
+- `/hospital/nursing`
+- `/hospital/technician`
+- `/login`
+
+Todos usam dados fictícios. A autenticação e o banco clínico ainda não estão conectados.
+
 ## Princípios
 
 1. Segurança e privacidade por padrão.
@@ -22,18 +38,37 @@ Plataforma de saúde digital criada do zero para gestão da jornada do paciente 
 4. Auditoria e rastreabilidade para ações sensíveis.
 5. Separação entre domínio, autenticação, dados e apresentação.
 6. Crescimento modular sem misturar Private, Clinic e Hospital.
-
-## Estado atual
-
-Fundação técnica inicial. O banco clínico ainda não foi modelado e nenhuma tabela de domínio foi criada.
+7. Nenhum schema clínico criado por suposição.
 
 ## Documentação
 
 - `docs/ARCHITECTURE.md`
+- `docs/PRODUCT_ARCHITECTURE.md`
+- `docs/PERMISSIONS.md`
+- `docs/FLOWS.md`
+- `docs/SECURITY.md`
+- `docs/MVP.md`
 - `docs/ROADMAP.md`
 
-## Variáveis de ambiente
+## Desenvolvimento local
 
-Copie `.env.example` para `.env.local` e preencha as credenciais do projeto Supabase quando ele for criado.
+Depois de clonar o repositório:
 
-Nunca envie chaves privadas ou credenciais para o GitHub.
+```bash
+npm install
+npm run dev
+```
+
+Para checagens:
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+## Supabase
+
+Copie `.env.example` para `.env.local` e preencha as credenciais somente quando o projeto Supabase do MedJourney for criado.
+
+Nunca envie chaves privadas, tokens ou credenciais para o GitHub.
