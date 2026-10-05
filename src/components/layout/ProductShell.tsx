@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 
 type NavigationItem = {
   href: string;
@@ -36,14 +37,14 @@ export function ProductShell({
             <Link
               key={item.href}
               href={item.href}
-              className="block rounded-2xl px-4 py-3 text-sm font-medium text-[var(--muted)] transition hover:bg-[var(--surface)] hover:text-[var(--foreground)]"
+              className="block rounded-[10px] px-4 py-3 text-sm font-medium text-[var(--muted)] transition hover:bg-[#eaf4ff] hover:text-[#07599f]"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="m-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <div className="m-4 rounded-[12px] border border-[var(--border)] bg-[#f8fafc] p-4">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
             Protótipo
           </p>
@@ -54,20 +55,24 @@ export function ProductShell({
       </aside>
 
       <div className="lg:pl-72">
-        <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-white/90 backdrop-blur">
-          <div className="flex min-h-20 items-center justify-between px-6 lg:px-10">
+        <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[#f5f7fb]/95 backdrop-blur">
+          <div className="flex min-h-20 items-center justify-between gap-4 px-6 lg:px-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
                 {eyebrow}
               </p>
               <p className="mt-1 font-medium text-[var(--foreground)]">{product}</p>
             </div>
-            <Link
-              href="/"
-              className="rounded-xl border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium shadow-sm"
-            >
-              Trocar ambiente
-            </Link>
+
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="rounded-[10px] border border-[var(--border)] bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:bg-[#f8fafc]"
+              >
+                Trocar ambiente
+              </Link>
+              <LogoutButton />
+            </div>
           </div>
 
           <nav
@@ -78,7 +83,7 @@ export function ProductShell({
               <Link
                 key={item.href}
                 href={item.href}
-                className="shrink-0 rounded-xl bg-[var(--surface)] px-3 py-2 text-xs font-semibold text-[var(--muted)]"
+                className="shrink-0 rounded-[9px] bg-[#eaf4ff] px-3 py-2 text-xs font-semibold text-[#07599f]"
               >
                 {item.label}
               </Link>
