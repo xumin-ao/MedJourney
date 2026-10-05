@@ -31,7 +31,7 @@ export function ProductShell({
           </p>
         </div>
 
-        <nav className="flex-1 space-y-1 p-4">
+        <nav className="flex-1 space-y-1 p-4" aria-label={`Navegação ${product}`}>
           {navigation.map((item) => (
             <Link
               key={item.href}
@@ -54,7 +54,7 @@ export function ProductShell({
       </aside>
 
       <div className="lg:pl-72">
-        <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-[color:rgba(246,248,248,0.92)] backdrop-blur">
+        <header className="sticky top-0 z-20 border-b border-[var(--border)] bg-white/90 backdrop-blur">
           <div className="flex min-h-20 items-center justify-between px-6 lg:px-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
@@ -69,6 +69,21 @@ export function ProductShell({
               Trocar ambiente
             </Link>
           </div>
+
+          <nav
+            className="flex gap-2 overflow-x-auto border-t border-[var(--border)] px-4 py-3 lg:hidden"
+            aria-label={`Navegação móvel ${product}`}
+          >
+            {navigation.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="shrink-0 rounded-xl bg-[var(--surface)] px-3 py-2 text-xs font-semibold text-[var(--muted)]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </header>
 
         <main className="px-6 py-8 lg:px-10 lg:py-10">{children}</main>

@@ -44,10 +44,14 @@ Todos usam dados fictícios. A autenticação e o banco clínico ainda não est�
 
 - `docs/ARCHITECTURE.md`
 - `docs/PRODUCT_ARCHITECTURE.md`
+- `docs/DOMAIN_MODEL.md`
 - `docs/PERMISSIONS.md`
 - `docs/FLOWS.md`
 - `docs/SECURITY.md`
 - `docs/MVP.md`
+- `docs/DESIGN_SYSTEM.md`
+- `docs/ROUTES.md`
+- `docs/DECISIONS.md`
 - `docs/ROADMAP.md`
 
 ## Desenvolvimento local

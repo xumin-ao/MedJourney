@@ -1,5 +1,24 @@
+import Link from "next/link";
 import { MetricCard } from "@/components/ui/MetricCard";
 import { Panel } from "@/components/ui/Panel";
+
+const roleViews = [
+  {
+    href: "/hospital/physician",
+    title: "Médico",
+    description: "Pacientes sob responsabilidade, resultados e decisões pendentes.",
+  },
+  {
+    href: "/hospital/nursing",
+    title: "Enfermagem",
+    description: "Coordenação do cuidado, mapa assistencial e pendências da unidade.",
+  },
+  {
+    href: "/hospital/technician",
+    title: "Técnico de enfermagem",
+    description: "Sequência de trabalho e tarefas autorizadas do turno.",
+  },
+];
 
 export default function HospitalDashboard() {
   return (
@@ -54,6 +73,24 @@ export default function HospitalDashboard() {
                 <span className="text-sm font-medium">{unit}</span>
                 <span className="text-sm font-semibold">{total}</span>
               </div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+
+      <div className="mt-6">
+        <Panel title="Experiências por profissão" description="O hospital não terá uma única tela genérica para toda a equipe.">
+          <div className="grid gap-4 md:grid-cols-3">
+            {roleViews.map((role) => (
+              <Link
+                key={role.href}
+                href={role.href}
+                className="rounded-2xl border border-[var(--border)] p-5 transition hover:bg-[var(--surface)]"
+              >
+                <p className="font-semibold">{role.title}</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{role.description}</p>
+                <p className="mt-4 text-sm font-semibold">Abrir visão →</p>
+              </Link>
             ))}
           </div>
         </Panel>
