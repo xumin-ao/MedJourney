@@ -1,60 +1,97 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { LoginForm } from "@/components/auth/LoginForm";
+import { createClient } from "@/lib/supabase/server";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+
+  if (data?.claims) {
+    redirect("/workspace");
+  }
+
   return (
-    <main className="grid min-h-screen bg-[var(--background)] lg:grid-cols-[1.05fr_0.95fr]">
-      <section className="flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md">
-          <Link href="/" className="text-xl font-semibold tracking-tight">MedJourney</Link>
-          <p className="mt-10 text-sm font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
-            Acesso seguro
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight">Entre na sua área de trabalho.</h1>
-          <p className="mt-4 leading-7 text-[var(--muted)]">
-            Esta tela é somente visual nesta fase. A autenticação será conectada ao Supabase depois da definição formal de organizações e perfis.
-          </p>
+    <main className="min-h-screen bg-[var(--background)]">
+      <div className="grid min-h-screen lg:grid-cols-[0.95fr_1.05fr]">
+        <section className="relative flex items-center justify-center px-6 py-12 sm:px-10 lg:px-14">
+          <div className="w-full max-w-md">
+            <div className="flex items-center gap-3">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--foreground)] text-sm font-bold tracking-tight text-white shadow-sm">
+                MJ
+              </div>
+              <div>
+                <p className="text-lg font-semibold tracking-tight">MedJourney</p>
+                <p className="text-xs font-medium text-[var(--muted)]">
+                  Plataforma de cuidado conectado
+                </p>
+              </div>
+            </div>
 
-          <form className="mt-8 space-y-5">
-            <label className="block">
-              <span className="text-sm font-medium">E-mail</span>
-              <input
-                type="email"
-                disabled
-                placeholder="nome@instituicao.com.br"
-                className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3.5 outline-none disabled:cursor-not-allowed disabled:opacity-70"
-              />
-            </label>
-            <label className="block">
-              <span className="text-sm font-medium">Senha</span>
-              <input
-                type="password"
-                disabled
-                placeholder="••••••••"
-                className="mt-2 w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3.5 outline-none disabled:cursor-not-allowed disabled:opacity-70"
-              />
-            </label>
-            <button
-              type="button"
-              disabled
-              className="w-full rounded-2xl bg-[var(--accent)] px-4 py-3.5 font-semibold text-white opacity-70"
-            >
-              Autenticação ainda não conectada
-            </button>
-          </form>
-        </div>
-      </section>
+            <div className="mt-14">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
+                Acesso seguro
+              </p>
+              <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+                Bem-vindo de volta.
+              </h1>
+              <p className="mt-4 max-w-md leading-7 text-[var(--muted)]">
+                Acesse seu ambiente MedJourney usando as credenciais fornecidas
+                pela sua organização.
+              </p>
+            </div>
 
-      <section className="hidden items-center bg-[var(--foreground)] p-12 text-white lg:flex">
-        <div className="max-w-xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">Um core. Três contextos.</p>
-          <h2 className="mt-5 text-5xl font-semibold tracking-tight">
-            A interface certa para cada ambiente de cuidado.
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-white/70">
-            Médico particular, clínica multiprofissional e hospital compartilham tecnologia, sem compartilhar uma experiência genérica.
-          </p>
-        </div>
-      </section>
+            <LoginForm />
+
+            <div className="mt-8 border-t border-[var(--border)] pt-6">
+              <p className="text-xs leading-5 text-[var(--muted)]">
+                O MedJourney não oferece cadastro público. Contas profissionais
+                são provisionadas de forma controlada para preservar segurança,
+                rastreabilidade e acesso adequado às informações.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative hidden overflow-hidden bg-[var(--foreground)] text-white lg:flex">
+          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full border border-white/10" />
+          <div className="absolute -right-10 -top-10 h-64 w-64 rounded-full border border-white/10" />
+          <div className="absolute bottom-[-140px] left-[-80px] h-96 w-96 rounded-full bg-white/[0.03]" />
+
+          <div className="relative z-10 flex w-full flex-col justify-between p-14 xl:p-20">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/55">
+                Private · Clinic · Hospital
+              </p>
+              <h2 className="mt-6 max-w-2xl text-5xl font-semibold leading-[1.08] tracking-tight xl:text-6xl">
+                Um ecossistema pensado para cada contexto de cuidado.
+              </h2>
+              <p className="mt-7 max-w-xl text-lg leading-8 text-white/65">
+                A mesma base tecnológica pode sustentar experiências próprias
+                para médicos, clínicas e equipes hospitalares sem transformar
+                todos os profissionais no mesmo tipo de usuário.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                ["Private", "Continuidade e carteira clínica"],
+                ["Clinic", "Coordenação multiprofissional"],
+                ["Hospital", "Fluxo e responsabilidade assistencial"],
+              ].map(([title, description]) => (
+                <div
+                  key={title}
+                  className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur"
+                >
+                  <p className="font-semibold">{title}</p>
+                  <p className="mt-2 text-sm leading-6 text-white/55">
+                    {description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
