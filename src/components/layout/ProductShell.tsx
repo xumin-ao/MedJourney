@@ -45,11 +45,11 @@ export function ProductShell({
         </nav>
 
         <div className="m-4 rounded-[12px] border border-[var(--border)] bg-[#f8fafc] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
-            Protótipo
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#94a3b8]">
+            MedJourney
           </p>
-          <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">
-            Dados demonstrativos. Nenhum prontuário real está conectado.
+          <p className="mt-2 text-[12px] leading-5 text-[#64748b]">
+            Ambiente em construção.
           </p>
         </div>
       </aside>
